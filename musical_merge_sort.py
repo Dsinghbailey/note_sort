@@ -257,11 +257,16 @@ def add_octaves(
     """
     result = []
 
+    # Extract base notes without octave numbers
+    base_notes = []
+    for note in notes:
+        note_name = "".join(c for c in note if not c.isdigit())
+        if note_name not in base_notes:
+            base_notes.append(note_name)
+
+    # Add each note in each octave
     for octave in range(start_octave, end_octave + 1):
-        for note in notes:
-            # Extract the note name without the octave number
-            note_name = "".join(c for c in note if not c.isdigit())
-            # Add the new octave number
+        for note_name in base_notes:
             result.append(f"{note_name}{octave}")
 
     return result
