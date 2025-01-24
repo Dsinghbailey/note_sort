@@ -147,10 +147,17 @@ def get_note_value(note: str) -> float:
     return (octave * 12) + base_notes[note_name]
 
 
-def musical_merge_sort(arr: List[str], tempo: int) -> List[str]:
+def musical_merge_sort(arr: List[str], tempo: int, ascending: bool = True) -> List[str]:
     """
     Perform merge sort on an array of musical notes while playing each note
-    tempo: beats per minute
+
+    Args:
+        arr: List of note strings to sort
+        tempo: beats per minute
+        ascending: If True, sort from lowest to highest pitch. If False, sort from highest to lowest.
+
+    Returns:
+        Sorted list of notes
     """
     # Calculate delay between notes based on tempo
     delay = 60 / tempo  # Convert BPM to seconds
@@ -166,8 +173,16 @@ def musical_merge_sort(arr: List[str], tempo: int) -> List[str]:
             play_note(right[j])
             time.sleep(delay)
 
-            # Compare notes by their musical value instead of string comparison
-            if get_note_value(left[i]) <= get_note_value(right[j]):
+            # Compare notes by their musical value, considering sort direction
+            left_val = get_note_value(left[i])
+            right_val = get_note_value(right[j])
+
+            if ascending:
+                should_take_left = left_val <= right_val
+            else:
+                should_take_left = left_val >= right_val
+
+            if should_take_left:
                 result.append(left[i])
                 i += 1
             else:
@@ -263,5 +278,5 @@ if __name__ == "__main__":
     print("Playing:", scrambled_notes)
     # Sort them musically
     tempo = 480  # 120 BPM
-    sorted_notes = musical_merge_sort(scrambled_notes, tempo)
+    sorted_notes = musical_merge_sort(scrambled_notes, tempo, ascending=False)
     print("Sorted notes:", sorted_notes)
