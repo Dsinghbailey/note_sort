@@ -214,14 +214,8 @@ def musical_merge_sort(arr: List[str], tempo: int, ascending: bool = True) -> Li
 
         return merge(left, right)
 
-    # Initialize pygame mixer before sorting
-    init_pygame_mixer()
-
     # Perform the musical merge sort
     sorted_arr = sort(arr)
-
-    # Clean up pygame
-    pygame.quit()
 
     return sorted_arr
 
@@ -272,16 +266,37 @@ def add_octaves(
     return result
 
 
+def play_sequence(notes: List[str], tempo: int):
+    """Play a sequence of notes at the given tempo"""
+    delay = 60 / tempo
+    for note in notes:
+        play_note(note)
+        time.sleep(delay)
+
+
 # Example usage
 if __name__ == "__main__":
+    # Initialize pygame mixer at the start
+    init_pygame_mixer()
+
     # Create a scale across multiple octaves
     extended_scale = add_octaves(C_PENTATONIC_MAJOR_SCALE, 3, 5)
+    tempo = 360  # 90 BPM quater note
 
     # Scramble the notes
     scrambled_notes = scramble_notes(extended_scale)
 
     print("Scrambled notes:", scrambled_notes)
-    # Sort them musically
-    tempo = 360  # 90 BPM quater note
-    sorted_notes = musical_merge_sort(scrambled_notes, tempo, ascending=False)
-    print("Sorted notes:", sorted_notes)
+    print("Playing scrambled sequence...")
+    play_sequence(scrambled_notes, tempo)
+
+    try:
+        print("Playing sorting algorithm...")
+        sorted_notes = musical_merge_sort(scrambled_notes, tempo, ascending=False)
+        print("Playing sorted sequence...")
+        print("Sorted notes:", sorted_notes)
+        play_sequence(sorted_notes, tempo)
+        time.sleep(1)  # Brief pause before closing
+    finally:
+        # Clean up pygame at the very end
+        pygame.quit()

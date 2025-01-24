@@ -1,9 +1,10 @@
 # Musical Merge Sort
 
-A Python implementation of merge sort that plays musical notes during the sorting process. This creates an auditory representation of the sorting algorithm, where each comparison plays the notes being compared.
+A Python implementation of merge sort that plays musical notes during the sorting process and provides visual feedback. This creates both an auditory and visual representation of the sorting algorithm, where each comparison plays and highlights the notes being compared.
 
 ## Features
 
+- Visual representation of the sorting process
 - Merge sort visualization through sound
 - Multiple musical scale presets (Major, Minor, Pentatonic, Blues, etc.)
 - Programmable tempo control
@@ -27,16 +28,19 @@ pip install pygame numpy
 
 ## Usage
 
-You can run the script directly:
+Run the script directly to see and hear the sorting visualization:
 
 ```bash
 python musical_merge_sort.py
 ```
 
-Or you can import the functions and use them in your own code:
+Or import the functions and use them in your own code:
 
 ```python
 from musical_merge_sort import *
+
+# Initialize pygame mixer
+init_pygame_mixer()
 
 # Create a scale across multiple octaves
 extended_scale = add_octaves(C_PENTATONIC_MINOR_SCALE, 3, 5)
@@ -44,9 +48,15 @@ extended_scale = add_octaves(C_PENTATONIC_MINOR_SCALE, 3, 5)
 # Scramble the notes
 scrambled_notes = scramble_notes(extended_scale)
 
-# Sort them musically
-tempo = 480  # BPM
-sorted_notes = musical_merge_sort(scrambled_notes, tempo)
+# Sort them musically (with visualization)
+tempo = 360  # BPM
+sorted_notes = musical_merge_sort(scrambled_notes, tempo, ascending=True)
+
+# Play the final sorted sequence
+play_sequence(sorted_notes, tempo)
+
+# Clean up
+pygame.quit()
 ```
 
 ### Available Scales
@@ -63,9 +73,9 @@ sorted_notes = musical_merge_sort(scrambled_notes, tempo)
 
 ## Functions
 
-### `musical_merge_sort(arr: List[str], tempo: int) -> List[str]`
+### `musical_merge_sort(arr: List[str], tempo: int, ascending: bool = True) -> List[str]`
 
-Performs merge sort on an array of musical notes while playing each note during comparisons.
+Performs merge sort on an array of musical notes while playing each note during comparisons and showing visual feedback.
 
 ### `scramble_notes(notes: List[str]) -> List[str]`
 
@@ -74,6 +84,24 @@ Randomly shuffles the order of notes in an array.
 ### `add_octaves(notes: List[str], start_octave: int = 2, end_octave: int = 5) -> List[str]`
 
 Creates a new array with the notes repeated across multiple octaves.
+
+### `play_sequence(notes: List[str], tempo: int)`
+
+Plays a sequence of notes at the given tempo.
+
+### `init_pygame_mixer()`
+
+Initializes the pygame mixer for playing sounds.
+
+## Visualization
+
+The visual interface shows:
+
+- Each note as a rectangle
+- Rectangle height corresponds to note pitch
+- Yellow highlighting for notes being compared
+- Real-time updates as the sort progresses
+- Note names displayed on rectangles
 
 ## License
 
