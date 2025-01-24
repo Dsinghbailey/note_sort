@@ -111,6 +111,42 @@ def play_note(note: str):
         print(f"Could not play note {note}: {e}")
 
 
+def get_note_value(note: str) -> float:
+    """
+    Convert a note to a numeric value for comparison
+    Note format should be like 'c1', 'b4', 'd#3', 'eb3'
+    """
+    # Parse the note and octave
+    note = note.lower()
+    note_name = "".join(c for c in note if not c.isdigit())
+    octave = int("".join(c for c in note if c.isdigit()))
+
+    # Define base values for notes, including both sharp and flat notations
+    base_notes = {
+        "c": 0,
+        "c#": 1,
+        "db": 1,
+        "d": 2,
+        "d#": 3,
+        "eb": 3,
+        "e": 4,
+        "f": 5,
+        "f#": 6,
+        "gb": 6,
+        "g": 7,
+        "g#": 8,
+        "ab": 8,
+        "a": 9,
+        "a#": 10,
+        "bb": 10,
+        "b": 11,
+        "cb": 11,
+    }
+
+    # Calculate total value: (octave * 12) + note_value
+    return (octave * 12) + base_notes[note_name]
+
+
 def musical_merge_sort(arr: List[str], tempo: int) -> List[str]:
     """
     Perform merge sort on an array of musical notes while playing each note
@@ -130,7 +166,8 @@ def musical_merge_sort(arr: List[str], tempo: int) -> List[str]:
             play_note(right[j])
             time.sleep(delay)
 
-            if left[i] <= right[j]:
+            # Compare notes by their musical value instead of string comparison
+            if get_note_value(left[i]) <= get_note_value(right[j]):
                 result.append(left[i])
                 i += 1
             else:
