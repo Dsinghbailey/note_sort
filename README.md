@@ -27,6 +27,14 @@ pip install pygame numpy
 
 ## Usage
 
+You can run the script directly:
+
+```bash
+python musical_merge_sort.py
+```
+
+Or you can import the functions and use them in your own code:
+
 ```python
 from musical_merge_sort import *
 

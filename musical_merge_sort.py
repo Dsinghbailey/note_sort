@@ -275,12 +275,12 @@ def add_octaves(
 # Example usage
 if __name__ == "__main__":
     # Create a scale across multiple octaves
-    extended_scale = add_octaves(C_PENTATONIC_MINOR_SCALE, 3, 5)
+    extended_scale = add_octaves(C_PENTATONIC_MAJOR_SCALE, 3, 5)
 
     # Scramble the notes
     scrambled_notes = scramble_notes(extended_scale)
 
-    print("Playing:", scrambled_notes)
+    print("Scrambled notes:", scrambled_notes)
     # Sort them musically
     tempo = 480  # 120 BPM
     sorted_notes = musical_merge_sort(scrambled_notes, tempo, ascending=False)
