@@ -282,6 +282,6 @@ if __name__ == "__main__":
 
     print("Scrambled notes:", scrambled_notes)
     # Sort them musically
-    tempo = 480  # 120 BPM
+    tempo = 360  # 90 BPM quater note
     sorted_notes = musical_merge_sort(scrambled_notes, tempo, ascending=False)
     print("Sorted notes:", sorted_notes)
